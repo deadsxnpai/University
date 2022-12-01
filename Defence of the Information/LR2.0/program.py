@@ -1,5 +1,7 @@
+from shutil import ExecError
 import sys
- 
+from struct import pack
+
 blocks = (
     (4, 10, 9, 2, 13, 8, 0, 14, 6, 11, 1, 12, 7, 15, 5, 3),
     (14, 11, 4, 12, 6, 13, 15, 10, 2, 3, 8, 1, 0, 7, 5, 9),
@@ -39,7 +41,7 @@ class Crypt(object):
     def _f(self, part, key):
         assert bit_length(part) <= 32
         assert bit_length(part) <= 32
-        temp = part ^ key 
+        temp = (part+key) % 4294967296
         output = 0
         for i in range(8):
             output |= ((self.sbox[i][(temp >> (4 * i)) & 0b1111]) << (4 * i))
@@ -101,10 +103,15 @@ def main(argv=None):
             return
         try:
             with open(sys.argv[3], 'w') as file:
+                # print(cyphred)
+                # b = bytearray()
+                # b.extend(cyphred)
+                # file.write(b)
                 print(*cyphred, file=file)
             print("Файл зашифрован")
-        except:
+        except Exception as ex:
             print(f"Не удалось открыть файл {sys.argv[3]}")
+            print(ex)
             return
     if sys.argv[1] == '-d':
         decyphred = []
