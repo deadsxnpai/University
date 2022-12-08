@@ -3,7 +3,6 @@ import random
 class A:
     def __init__(self, key, n):
         self.key = key
-        #self.key = 0
         self.n = n
 
     def gen_random_r(self):
@@ -127,7 +126,7 @@ def main():
         bit = b1.send_random_bit()
         print(f'bit: {bit}')
         answer = b1.check_answer(a1.r, a1.check_bit(bit))
-        print(f'answers:{answer}')
+        print(f'answer:{answer}')
         print('---------------------')
         t += 1
   

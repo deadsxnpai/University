@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import pylab
 from mpl_toolkits.mplot3d import Axes3D
 from numba import jit
 
@@ -101,9 +100,10 @@ def minimum():
         C_list.append(tempC)
     min_time = min(el for el in Time_list if Temp_list[Time_list.index(el)]-273 < 60)
     minTime, minF = min_time, F_list[Time_list.index(min_time)]
+    plot3D(F_list, Time_list, C_list)
     return minTime, minF
 
-def immitation(Tt):
+def imitation(Tt):
     time, numbers = lab_6()
     numbers.insert(0, Tt)
     minTime, minF = minimum()
@@ -114,7 +114,7 @@ def immitation(Tt):
         tempTime, tempF, tempT, tempC = math_model(minF, i+273)
         List_C.append(tempC)
 
-    plot(time, numbers[:190],List_C[:190])
+    plot(time, numbers[:990],List_C[:990])
 
 def lab_6():
     lam1 = 5 ** 12
@@ -122,7 +122,7 @@ def lab_6():
     M0 = 15
     disp0 = 4
     alpha0 = -0.085
-    N = 200
+    N = 1000
     Ns = 10
     x = [1]
     xi = []
@@ -145,17 +145,17 @@ def lab_6():
     return z1, z 
 
 def plot(Time,y,C):
-    fig, axes = pylab.subplots(nrows=1, ncols=2, figsize=(15, 6))
+    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(15, 6), label='Coursework')
     axes[0].plot(Time, y, color='black')
     axes[0].grid(True)
     axes[0].set(xlabel="Время(с)", ylabel="")
-    axes[0].axis(ymin=0,ymax=20)
+    axes[0].axis(ymin=7,ymax=20)
     axes[1].plot(Time, C, color='black')
     axes[1].grid(True)
     axes[1].set(xlabel="Время(с)", ylabel="Концентрация(моль/м^3)")
-    axes[1].axis(ymin=0,ymax=0.31)
-    pylab.subplots_adjust(wspace=0.5, hspace=0)
-    pylab.show()
+    axes[1].axis(ymin=0.1,ymax=0.31)
+    plt.subplots_adjust(wspace=0.5, hspace=0)
+    plt.show()
 
 def plot3D(F,t,C):
     fig = plt.figure(figsize=(10, 6))
@@ -168,7 +168,7 @@ def plot3D(F,t,C):
     plt.show()
 
 def main():
-   immitation(8)
+   imitation(8)
 
 if __name__ == '__main__':
     main()
